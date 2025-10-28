@@ -1,8 +1,11 @@
 import pygame
 import player
 import obstacle
-import random
 import setting
+from random import randint
+  
+PIPE_SPAWN_EVENT = pygame.USEREVENT + 1
+PIPE_SPAWN_INTERVAL = 3000
 
 class FlappyBird():
     def __init__(self):
@@ -15,18 +18,17 @@ class FlappyBird():
     def set_settings(self):
         self.clock = pygame.time.Clock()
         self.fps = 60
+        pygame.time.set_timer(PIPE_SPAWN_EVENT, PIPE_SPAWN_INTERVAL)
         
     def set_sprite(self):
+        
         self.my_player = player.Player("assets/1.png")
+        
+        #set sprite groups
         self.all_sprites = pygame.sprite.Group()
         self.obstacle_group = pygame.sprite.Group()
-        
-        for _ in range(0,10):
-            new_obstacle = obstacle.Obstacle("assets/1.png")
-            
-            self.obstacle_group.add(new_obstacle) 
-            self.all_sprites.add(new_obstacle)         
-            
+          
+        #add player sprite to "all_sprites" group for drawing 
         self.all_sprites.add(self.my_player)
         
         
@@ -36,13 +38,27 @@ class FlappyBird():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         self.my_player.jump()
-                if event.type == pygame.QUIT:
+                
+                if event.type == PIPE_SPAWN_EVENT:
+                    center_gap_y = randint(60,260)
+                    top_obstacle = obstacle.Obstacle("assets/1.png", "TOP", center_gap_y)
+                    bottom_obstacle = obstacle.Obstacle("assets/1.png", "BOTTOM", center_gap_y)
+                    
+                    self.obstacle_group.add(top_obstacle) 
+                    self.all_sprites.add(top_obstacle)
+                    
+                    self.obstacle_group.add(bottom_obstacle) 
+                    self.all_sprites.add(bottom_obstacle)    
+                    
+                if event.type == pygame.QUIT: 
                     exit()
                     
             pos = pygame.mouse.get_pos()
             self.my_player.set_pos(pos)
             
-            self.my_player.update()
+            #update all sprites  
+            self.all_sprites.update()
+            
             
             pygame.sprite.spritecollide(self.my_player, self.obstacle_group, True)
             

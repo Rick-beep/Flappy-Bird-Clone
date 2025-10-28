@@ -23,7 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = 50
         
     def jump(self):
-        self.rect.y += -100
+        self.rect.y += -60
 
     def set_pos(self, pos):
         self.rect.x = pos[0]
