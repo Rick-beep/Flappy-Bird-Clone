@@ -1,6 +1,5 @@
 import pygame
 from random import randint
-
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, sprite_sheet_path, pipe_segment, center_gap_y):
         super().__init__()
@@ -80,7 +79,7 @@ class Obstacle(pygame.sprite.Sprite):
     
         
     def update(self):
-        if self.rect.x < -50:
+        if self.rect.x < -self.pipe_surface.get_width():
             self.kill()
-        self.rect.x += -1
+        self.rect.x += -2
         

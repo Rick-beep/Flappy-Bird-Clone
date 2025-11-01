@@ -1,2 +1,2 @@
-def sprite_path():
-    return ("assets/1.png")
+def get_window_size():
+    return((640, 320))
