@@ -1,0 +1,86 @@
+import pygame
+import player
+import obstacle
+import background
+import setting
+from random import randint
+  
+PIPE_SPAWN_EVENT = pygame.USEREVENT + 1
+PIPE_SPAWN_INTERVAL = 1500
+
+class FlappyBird():
+    def __init__(self):
+        pygame.init()
+        window_size = setting.get_window_size()
+        self.window = pygame.display.set_mode(window_size)
+        self.set_sprite()
+        self.set_background()
+        self.set_settings()
+        self.main_loop()  
+    
+    def set_settings(self):
+        self.clock = pygame.time.Clock()
+        self.fps = 60
+        pygame.time.set_timer(PIPE_SPAWN_EVENT, PIPE_SPAWN_INTERVAL)
+        
+    def set_sprite(self):
+
+        
+        self.my_player = player.Player("assets/1.png")
+        
+        #set sprite groups
+        self.all_sprites = pygame.sprite.Group()
+        self.obstacle_group = pygame.sprite.Group()
+        
+        for i in range(0,7):
+            self.background = background.Background("assets/1.png", i)
+            self.all_sprites.add(self.background)
+          
+        #add player sprite to "all_sprites" group for drawing 
+        self.all_sprites.add(self.my_player)
+    
+    def set_background(self):
+        pass
+        
+    def main_loop(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        self.my_player.jump()
+                
+                if event.type == PIPE_SPAWN_EVENT:
+                    center_gap_y = randint(80,240)
+                    top_obstacle = obstacle.Obstacle("assets/1.png", "TOP", center_gap_y)
+                    bottom_obstacle = obstacle.Obstacle("assets/1.png", "BOTTOM", center_gap_y)
+                    
+                    self.obstacle_group.add(top_obstacle) 
+                    self.all_sprites.add(top_obstacle)
+                    
+                    self.obstacle_group.add(bottom_obstacle) 
+                    self.all_sprites.add(bottom_obstacle)    
+                    
+                if event.type == pygame.QUIT: 
+                    exit()
+                    
+            #pos = pygame.mouse.get_pos()
+            #self.my_player.set_pos(pos)
+        
+        
+            #update all sprites  
+            self.all_sprites.update()
+            
+            
+            pygame.sprite.spritecollide(self.my_player, self.obstacle_group, True)
+            
+            self.window.fill((12, 95, 218))
+            self.all_sprites.draw(self.window)
+            
+            self.clock.tick(self.fps)            
+            pygame.display.flip()
+        
+                    
+if __name__ == "__main__":
+    FlappyBird()
+    import pygame
+
