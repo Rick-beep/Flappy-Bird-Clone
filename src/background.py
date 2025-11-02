@@ -7,13 +7,12 @@ class Background(pygame.sprite.Sprite):
         self.path = sprite_sheet_path
         self.move_counter = 0
         self.set_sheet()
-        self.drawimage()
+        self.draw_image()
     
     def set_sheet(self):
         WHITE = (255, 255, 255)
         self.sheet = pygame.image.load(self.path).convert_alpha()
         self.sheet.set_colorkey(WHITE)
-        
         
     #BACKGROUND 0-6 adalah Gunung        
     def background_0(self):
@@ -21,7 +20,7 @@ class Background(pygame.sprite.Sprite):
         background_0 = self.sheet.subsurface(crop_area_background_0) 
         self.background = pygame.transform.scale(background_0, (320, 248))
         self.x_pos_offset = 0
-        self.y_pos_offset = 30
+        self.y_pos_offset = 50
         self.speed = -1
         
     def background_1(self):
@@ -29,7 +28,7 @@ class Background(pygame.sprite.Sprite):
         background_1 = self.sheet.subsurface(crop_area_background_1)
         self.background = pygame.transform.scale(background_1, (320, 248))
         self.x_pos_offset = 0
-        self.y_pos_offset = 30
+        self.y_pos_offset = 50
         self.speed = -1
         
     def background_2(self):
@@ -37,16 +36,15 @@ class Background(pygame.sprite.Sprite):
         background_2 = self.sheet.subsurface(crop_area_background_2)
         self.background = pygame.transform.scale(background_2, (320, 248))
         self.x_pos_offset = 0
-        self.y_pos_offset = 30
+        self.y_pos_offset = 50
         self.speed = -1
-        
         
     def background_3(self):
         crop_area_background_3 = pygame.Rect(124, 43, 40, 31)
         background_3 = self.sheet.subsurface(crop_area_background_3)
         self.background = pygame.transform.scale(background_3, (320, 248))
         self.x_pos_offset = 0
-        self.y_pos_offset = 30
+        self.y_pos_offset = 50
         self.speed = -1
     
     def background_4(self):
@@ -54,7 +52,7 @@ class Background(pygame.sprite.Sprite):
         background_4 = self.sheet.subsurface(crop_area_background_4)
         self.background = pygame.transform.scale(background_4, (320, 112))
         self.x_pos_offset = 0
-        self.y_pos_offset = 30
+        self.y_pos_offset = 50
         self.speed = -1
 
     def background_5(self):
@@ -62,7 +60,7 @@ class Background(pygame.sprite.Sprite):
         background_5 = self.sheet.subsurface(crop_area_background_5)
         self.background = pygame.transform.scale(background_5, (320, 112))
         self.x_pos_offset = 0
-        self.y_pos_offset = 30
+        self.y_pos_offset = 50
         self.speed = -1
 
     def background_6(self):
@@ -70,17 +68,16 @@ class Background(pygame.sprite.Sprite):
         background_6 = self.sheet.subsurface(crop_area_background_6)
         self.background = pygame.transform.scale(background_6, (320, 112))
         self.x_pos_offset = 0
-        self.y_pos_offset = 30
+        self.y_pos_offset = 50
         self.speed = -1
-        
         
     # Lantai
     def background_7(self):
         crop_area_background_7 = pygame.Rect(1, 20, 36, 7)
         background_7 = self.sheet.subsurface(crop_area_background_7)
-        self.background = pygame.transform.scale(background_7, (288, 56))
+        self.background = pygame.transform.scale(background_7, (144, 28))
         self.x_pos_offset = 0
-        self.y_pos_offset = 10
+        self.y_pos_offset = 60
         self.speed = -2
         
 
@@ -88,18 +85,18 @@ class Background(pygame.sprite.Sprite):
     def background_8(self):
         crop_area_background_8 = pygame.Rect(42, 24, 36, 3)
         background_8 = self.sheet.subsurface(crop_area_background_8)
-        self.background = pygame.transform.scale(background_8, (288, 24))
+        self.background = pygame.transform.scale(background_8, (144, 12))
         self.x_pos_offset = 0
-        self.y_pos_offset = 0
+        self.y_pos_offset = 50
         self.speed = -2
 
     # Air
     def background_9(self):
         crop_area_background_9 = pygame.Rect(42, 18, 40, 4)
         background_9 = self.sheet.subsurface(crop_area_background_9)
-        self.background = pygame.transform.scale(background_9, (320, 32))
+        self.background = pygame.transform.scale(background_9, (160, 16))
         self.x_pos_offset = 0
-        self.y_pos_offset = self.background.get_height()/2 + 5
+        self.y_pos_offset = self.background.get_height()/2 + 55 
         self.speed = -2
         
     def inisialisasi(self):
@@ -124,14 +121,14 @@ class Background(pygame.sprite.Sprite):
         elif self.id == 9:
             self.background_9()
             
-    def drawimage(self):
+    def draw_image(self):
         self.inisialisasi()
         
         background_width = self.background.get_width()
-        self.background_blu = pygame.Surface((background_width*6, 640), pygame.SRCALPHA)
+        self.background_blu = pygame.Surface((background_width*8, 640), pygame.SRCALPHA)
         self.background_blu.blit(self.background, (0, 0))
         
-        for i in range(1, 7):
+        for i in range(1, 9):
             self.background_blu.blit(self.background, (background_width*i, 0))
     
         self.image = self.background_blu
@@ -143,7 +140,7 @@ class Background(pygame.sprite.Sprite):
         self.rect.x = 0
     
     def update(self):
-        if self.rect.x < -self.background.get_width()*2:
+        if self.rect.x <= -self.background.get_width()*2:
             self.reset()
             
         self.move_counter += 1

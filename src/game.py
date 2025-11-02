@@ -42,7 +42,7 @@ class FlappyBird():
     def set_background(self):
         pass
         
-    def main_loop(self):
+    def main_loop(self):  
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
@@ -50,15 +50,12 @@ class FlappyBird():
                         self.my_player.jump()
                 
                 if event.type == PIPE_SPAWN_EVENT:
-                    center_gap_y = randint(80,240-56)
-                    top_obstacle = obstacle.Obstacle("assets/1.png", "TOP", center_gap_y)
-                    bottom_obstacle = obstacle.Obstacle("assets/1.png", "BOTTOM", center_gap_y)
+                    center_gap_y = randint(80,240-90)
                     
-                    self.obstacle_group.add(top_obstacle) 
-                    self.all_sprites.add(top_obstacle)
-                    
-                    self.obstacle_group.add(bottom_obstacle) 
-                    self.all_sprites.add(bottom_obstacle)    
+                    for i in range(0,3):
+                        top_obstacle = obstacle.Obstacle("assets/1.png", i, center_gap_y)
+                        self.obstacle_group.add(top_obstacle) 
+                        self.all_sprites.add(top_obstacle)
                     
                 if event.type == pygame.QUIT: 
                     exit()
