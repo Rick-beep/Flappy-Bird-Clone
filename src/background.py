@@ -6,6 +6,8 @@ class Background(pygame.sprite.Sprite):
         self.id = id
         self.path = sprite_sheet_path
         self.move_counter = 0
+        self.window_size = setting.get_window_size()
+
         self.set_sheet()
         self.draw_image()
     

@@ -24,8 +24,6 @@ class FlappyBird():
         pygame.time.set_timer(PIPE_SPAWN_EVENT, PIPE_SPAWN_INTERVAL)
         
     def set_sprite(self):
-
-        
         self.my_player = player.Player("assets/1.png")
         
         #set sprite groups
@@ -37,7 +35,6 @@ class FlappyBird():
             self.all_sprites.add(self.background)
           
         #add player sprite to "all_sprites" group for drawing 
-        self.all_sprites.add(self.my_player)
     
     def set_background(self):
         pass
@@ -50,7 +47,7 @@ class FlappyBird():
                         self.my_player.jump()
                 
                 if event.type == PIPE_SPAWN_EVENT:
-                    center_gap_y = randint(80,240-90)
+                    center_gap_y = randint(80,240-100)
                     
                     for i in range(0,3):
                         top_obstacle = obstacle.Obstacle("assets/1.png", i, center_gap_y)
@@ -63,15 +60,15 @@ class FlappyBird():
             #pos = pygame.mouse.get_pos()
             #self.my_player.set_pos(pos)
         
-        
             #update all sprites  
             self.all_sprites.update()
-            
+            self.my_player.update()
             
             pygame.sprite.spritecollide(self.my_player, self.obstacle_group, True)
-            
+             
             self.window.fill((12, 95, 218))
             self.all_sprites.draw(self.window)
+            self.my_player.draw_image(self.window) 
             
             self.clock.tick(self.fps)            
             pygame.display.flip()
@@ -79,5 +76,4 @@ class FlappyBird():
                     
 if __name__ == "__main__":
     FlappyBird()
-    import pygame
 

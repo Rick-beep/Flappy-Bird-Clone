@@ -1,4 +1,5 @@
 import pygame
+import setting
 from random import randint
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, sprite_sheet_path, pipe_id, center_gap_y):
@@ -6,6 +7,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.center_gap_y = center_gap_y
         self.path = sprite_sheet_path
         self.pipe_id = pipe_id
+        self.window_size = setting.get_window_size()
         
         self.set_sheet()
         self.set_sprite()
@@ -74,7 +76,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.image = self.pipe_surface
             
         self.rect = self.image.get_rect()
-        self.rect.x = 640
+        self.rect.x = self.window_size[0]
         self.rect.y = self.y_bottom_pipe_start
     
     def obstacle_1(self): 
@@ -95,7 +97,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.image = self.pipe_surface
             
         self.rect = self.image.get_rect()
-        self.rect.x = 640
+        self.rect.x = self.window_size[0]
         self.rect.y = 0
     
     def obstacle_2(self):
@@ -103,7 +105,7 @@ class Obstacle(pygame.sprite.Sprite):
         pipe_cap_re = self.sheet.subsurface(crop_area_cap_re)
         self.scaled_cap_re = pygame.transform.scale(pipe_cap_re, (64, 16))
         
-        self.pipe_height = (320 - self.y_bottom_pipe_start -68)/ 2.5
+        self.pipe_height = (320 - self.y_bottom_pipe_start -68)-40
         self.pipe_surface = pygame.Surface((64, self.pipe_height), pygame.SRCALPHA)
         
         self.pipe_surface.blit(self.scaled_cap_re, (0, self.pipe_height - self.scaled_cap_re.get_height()))
@@ -116,7 +118,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.image = self.pipe_surface
             
         self.rect = self.image.get_rect()
-        self.rect.x = 640
+        self.rect.x = self.window_size[0]
         self.rect.y = 270
                 
     def update(self):
