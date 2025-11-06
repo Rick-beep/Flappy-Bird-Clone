@@ -16,10 +16,10 @@ class Player(pygame.sprite.Sprite):
         self.at_land = False
         
         
-        self.x_pos = 50
-        self.y_pos = 50
+        self.x_pos = self.window_size[0]/4
+        self.y_pos = 0
         
-        self.gravitasi = 0.12
+        self.gravitasi = 0.13
         self.y_vektor = 0
         
         self.rect = self.image.get_rect()
@@ -68,14 +68,14 @@ class Player(pygame.sprite.Sprite):
         
     def update(self):
         self.rect.y = int(self.y_pos)
-        if self.rect.y <= self.window_size[1] - 122 and not self.at_land:
+        if self.rect.y <= self.window_size[1] - 152 and not self.at_land:
             self.y_pos += self.y_vektor
-            if self.y_vektor <= 4:
+            if self.y_vektor <= 7:
                 self.y_vektor += self.gravitasi
                 
         else:
             print("Game over")
-            self.y_pos = self.window_size[1] - 122
+            self.y_pos = self.window_size[1] - 152
             self.at_land = True
             
         self.animation()

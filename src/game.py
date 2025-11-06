@@ -6,13 +6,13 @@ import setting
 from random import randint
   
 PIPE_SPAWN_EVENT = pygame.USEREVENT + 1
-PIPE_SPAWN_INTERVAL = 1500
+PIPE_SPAWN_INTERVAL = 2000
 
 class FlappyBird():
     def __init__(self):
         pygame.init()
-        window_size = setting.get_window_size()
-        self.window = pygame.display.set_mode(window_size)
+        self.window_size = setting.get_window_size()
+        self.window = pygame.display.set_mode(self.window_size)
         self.set_sprite()
         self.set_background()
         self.set_settings()
@@ -47,7 +47,7 @@ class FlappyBird():
                         self.my_player.jump()
                 
                 if event.type == PIPE_SPAWN_EVENT:
-                    center_gap_y = randint(80,240-100)
+                    center_gap_y = randint(120,self.window_size[1]-225)
                     
                     for i in range(0,3):
                         top_obstacle = obstacle.Obstacle("assets/1.png", i, center_gap_y)

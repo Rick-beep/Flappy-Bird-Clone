@@ -127,16 +127,16 @@ class Background(pygame.sprite.Sprite):
         self.inisialisasi()
         
         background_width = self.background.get_width()
-        self.background_blu = pygame.Surface((background_width*8, 640), pygame.SRCALPHA)
+        self.background_blu = pygame.Surface((background_width*11, 640), pygame.SRCALPHA)
         self.background_blu.blit(self.background, (0, 0))
         
-        for i in range(1, 9):
+        for i in range(1, 12):
             self.background_blu.blit(self.background, (background_width*i, 0))
     
         self.image = self.background_blu
         self.rect = self.image.get_rect()
         self.rect.x = 0
-        self.rect.y = 320 - self.background.get_height() - self.y_pos_offset
+        self.rect.y = self.window_size[1] - self.background.get_height() - self.y_pos_offset -30
     
     def reset(self):
         self.rect.x = 0
