@@ -30,7 +30,7 @@ class FlappyBird():
         self.all_sprites = pygame.sprite.Group()
         self.obstacle_group = pygame.sprite.Group()
         
-        for i in range(0,10):
+        for i in range(0,17):
             self.background = background.Background("assets/1.png", i)
             self.all_sprites.add(self.background)
           
