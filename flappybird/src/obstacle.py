@@ -34,8 +34,8 @@ class Obstacle(pygame.sprite.Sprite):
     
     def set_obstacle(self):
         #Modifikasi inni untuk atur buffer jarak pixel
-        self.y_top_pipe_end = self.center_gap_y - 60
-        self.y_bottom_pipe_start = self.center_gap_y + 60
+        self.y_top_pipe_end = self.center_gap_y - 90
+        self.y_bottom_pipe_start = self.center_gap_y + 90
         if self.pipe_id == 0:
             self.obstacle_0()
         elif self.pipe_id == 1:
@@ -62,7 +62,7 @@ class Obstacle(pygame.sprite.Sprite):
         pipe_cap_bottom = self.sheet.subsurface(crop_area_cap_bottom)
         self.scaled_cap_bottom = pygame.transform.scale(pipe_cap_bottom, (64, 28))
         
-        self.pipe_height = 320 - self.y_bottom_pipe_start -88
+        self.pipe_height = self.window_size[1] - self.y_bottom_pipe_start - 88
         self.pipe_surface = pygame.Surface((64, self.pipe_height), pygame.SRCALPHA)
         
         self.pipe_surface.blit(self.scaled_cap_bottom, (0, 0))
@@ -77,7 +77,7 @@ class Obstacle(pygame.sprite.Sprite):
             
         self.rect = self.image.get_rect()
         self.rect.x = self.window_size[0]
-        self.rect.y = self.y_bottom_pipe_start
+        self.rect.y = self.y_bottom_pipe_start - 30
     
     def obstacle_1(self): 
         crop_area_cap_top = pygame.Rect(18, 1, 16, 7)
@@ -105,7 +105,7 @@ class Obstacle(pygame.sprite.Sprite):
         pipe_cap_re = self.sheet.subsurface(crop_area_cap_re)
         self.scaled_cap_re = pygame.transform.scale(pipe_cap_re, (64, 16))
         
-        self.pipe_height = (320 - self.y_bottom_pipe_start -68)-40
+        self.pipe_height = (self.window_size[1] - self.y_bottom_pipe_start -68)-40
         self.pipe_surface = pygame.Surface((64, self.pipe_height), pygame.SRCALPHA)
         
         self.pipe_surface.blit(self.scaled_cap_re, (0, self.pipe_height - self.scaled_cap_re.get_height()))
@@ -119,7 +119,7 @@ class Obstacle(pygame.sprite.Sprite):
             
         self.rect = self.image.get_rect()
         self.rect.x = self.window_size[0]
-        self.rect.y = 270
+        self.rect.y = self.window_size[1] - 80
                 
     def update(self):
         if self.rect.x < -self.pipe_surface.get_width():
