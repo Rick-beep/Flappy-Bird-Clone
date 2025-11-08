@@ -33,19 +33,28 @@ class Player(pygame.sprite.Sprite):
     
     def player_sprite(self):
         self.frames = {}
-        crop_area_1 = pygame.Rect(35, 1, 10, 8)
-        #crop_area_2 = pygame.Rect(47, 1, 10, 8)
-        #crop_area_3 = pygame.Rect(59, 1, 10, 8)
+        self.frames_refleklsi = {}
         
         for i in range(1, 4):
             crop_area = pygame.Rect(23 + (i * 12), 1, 10, 8)
             image = self.sheet.subsurface(crop_area)
-            self.frames[i-1] = pygame.transform.scale(image, (40, 34))
-        
+            self.frames[i-1] = pygame.transform.scale(image, (40, 32))
+            
+            
+            #(35, 10, 10, 4)
+            crop_area = pygame.Rect(23 + (i * 12), 10, 10, 4)
+            image = self.sheet.subsurface(crop_area)
+            self.frames_refleklsi[i-1] = pygame.transform.scale(image, (40, 16))
+            
+
         self.image = self.frames[0] 
+        self.image_refleksi = self.frames_refleklsi[0] 
+        
 
     def draw_image(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))
+        window.blit(self.image_refleksi, (self.rect.x,(-self.rect.y + self.window_size[1])/2 + 420))
+        
         
     def jump(self):
         self.at_land = False
@@ -60,10 +69,16 @@ class Player(pygame.sprite.Sprite):
     def animation(self):
         if self.animation_start > 0:
             self.image = self.frames[0]
+            self.image_refleksi = self.frames_refleklsi[0]
+            
         elif self.y_vektor > 1:
             self.image = self.frames[2]
+            self.image_refleksi = self.frames_refleklsi[2]
+
         else:
             self.image = self.frames[1]
+            self.image_refleksi = self.frames_refleklsi[1]
+
         self.animation_start -= 1
         
     def update(self):

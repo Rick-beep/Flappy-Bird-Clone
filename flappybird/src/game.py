@@ -33,6 +33,13 @@ class FlappyBird():
         for i in range(0,17):
             self.background = background.Background("flappybird/assets/1.png", i)
             self.all_sprites.add(self.background)
+        
+        for i in range(0, 3):
+            self.background = background.Background("flappybird/assets/1.png", 17)
+            self.all_sprites.add(self.background)
+            self.background = background.Background("flappybird/assets/1.png", 18)
+            self.all_sprites.add(self.background) 
+
           
         #add player sprite to "all_sprites" group for drawing 
     
@@ -57,13 +64,11 @@ class FlappyBird():
                 if event.type == pygame.QUIT: 
                     exit()
                     
-            #pos = pygame.mouse.get_pos()
-            #self.my_player.set_pos(pos)
-        
             #update all sprites  
             self.all_sprites.update()
             self.my_player.update()
-            
+            pos = pygame.mouse.get_pos()
+            self.my_player.set_pos(pos)
             pygame.sprite.spritecollide(self.my_player, self.obstacle_group, True)
              
             self.window.fill((12, 95, 218))

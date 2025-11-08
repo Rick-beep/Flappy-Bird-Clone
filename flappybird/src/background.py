@@ -1,5 +1,6 @@
 import pygame
 import setting
+from random import randint
 class Background(pygame.sprite.Sprite):
     def __init__(self, sprite_sheet_path, id):
         super().__init__()
@@ -25,6 +26,8 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = 50
         self.speed = 15 # Setiap 7x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
+        self.is_awan = False
+        self.id = 0
         
     def background_1(self):
         crop_area_background = pygame.Rect(42, 28, 40, 31)
@@ -34,6 +37,8 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = 50
         self.speed = 17 # Setiap 6x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
+        self.is_awan = False
+        self.id = 1
         
     def background_2(self):
         crop_area_background = pygame.Rect(83, 28, 40, 31)
@@ -43,6 +48,8 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = 50
         self.speed = 20 # Setiap 5x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
+        self.is_awan = False
+        self.id = 2
         
     def background_3(self):
         crop_area_background = pygame.Rect(124, 43, 40, 31)
@@ -52,7 +59,9 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = 50
         self.speed = 25 # Setiap 4x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
-    
+        self.is_awan = False
+        self.id = 3
+        
     def background_4(self):
         crop_area_background = pygame.Rect(1, 60, 40, 14)
         background_4 = self.sheet.subsurface(crop_area_background)
@@ -61,6 +70,8 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = 50
         self.speed = 34 # Setiap 3x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
+        self.is_awan = False
+        self.id = 4
         
     def background_5(self):
         crop_area_background = pygame.Rect(42, 60, 40, 14)
@@ -70,6 +81,9 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = 50
         self.speed = 50 # Setiap 2x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
+        self.is_awan = False
+        self.id = 5
+        
     def background_6(self):
         crop_area_background = pygame.Rect(83, 60, 40, 14)
         background_6 = self.sheet.subsurface(crop_area_background)
@@ -78,6 +92,8 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = 50
         self.speed = 100 # Setiap 1x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
+        self.is_awan = False
+        self.id = 6
         
     #refleksi
     def background_7(self):
@@ -88,6 +104,8 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = -30
         self.speed = 15 # Setiap 7x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
+        self.is_awan = False
+        self.id = 7
         
     def background_8(self):
         crop_area_background = pygame.Rect(42, 83, 40, 13)
@@ -97,7 +115,9 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = -30
         self.speed = 17 # Setiap 6x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
-
+        self.is_awan = False
+        self.id = 8
+        
     def background_9(self):
         crop_area_background = pygame.Rect(83, 83, 40, 13)
         background_12 = self.sheet.subsurface(crop_area_background)
@@ -106,6 +126,8 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = -30
         self.speed = 20 # Setiap 5x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
+        self.is_awan = False
+        self.id = 9
         
     def background_10(self):
         crop_area_background = pygame.Rect(124, 83, 40, 13)
@@ -115,35 +137,42 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = -30
         self.speed = 25 # Setiap 4x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
-    #               
+        self.is_awan = False
+        self.id = 10        
+
     # 
     def background_11(self):
         crop_area_background = pygame.Rect(1, 75, 40, 7)
         background_11 = self.sheet.subsurface(crop_area_background)
         self.background = pygame.transform.scale(background_11, (320, 56))
         self.x_pos_offset = 50
-        self.y_pos_offset = 10
+        self.y_pos_offset = 0
         self.speed = 34 # Setiap 3x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
-        
+        self.is_awan = False
+        self.id = 11
+                
     def background_12(self):
         crop_area_background = pygame.Rect(42, 75, 40, 7)
         background_12 = self.sheet.subsurface(crop_area_background)
-        self.background = pygame.transform.scale(background_12, (320, 52))
+        self.background = pygame.transform.scale(background_12, (320, 56))
         self.x_pos_offset = 35
-        self.y_pos_offset = 10
+        self.y_pos_offset = 0
         self.speed = 50 # Setiap 2x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
-
+        self.is_awan = False
+        self.id = 12
+        
     def background_13(self):
         crop_area_background = pygame.Rect(83, 75, 40, 7)
         background_12 = self.sheet.subsurface(crop_area_background)
-        self.background = pygame.transform.scale(background_12, (320, 52))
+        self.background = pygame.transform.scale(background_12, (320, 56))
         self.x_pos_offset = 35
-        self.y_pos_offset = 10
+        self.y_pos_offset = 0
         self.speed = 100 # Setiap 1x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
-        
+        self.is_awan = False
+        self.id = 13
     # Lantai
     def background_14(self):
         crop_area_background = pygame.Rect(1, 20, 36, 7)
@@ -153,7 +182,8 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = 60
         self.speed = 100
         self.move_speed = 2
-    
+        self.is_awan = False
+        self.id = 14
         
     # Refleksi lantai
     def background_15(self):
@@ -164,7 +194,8 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = 50
         self.speed = 100
         self.move_speed = 2
-        
+        self.is_awan = False
+        self.id = 15
 
     # Air
     def background_16(self):
@@ -175,6 +206,33 @@ class Background(pygame.sprite.Sprite):
         self.y_pos_offset = self.background.get_height()/2 + 55 
         self.speed = 100
         self.move_speed = 2
+        self.is_awan = False
+        self.id = 16
+    #awan_1
+    def background_17(self):
+        self.size_modifier = randint(1,2)
+        crop_area_background = pygame.Rect(70, 1, 15, 9)
+        background_9 = self.sheet.subsurface(crop_area_background)
+        self.background = pygame.transform.scale(background_9, (60*self.size_modifier, 36*self.size_modifier))
+        self.x_pos_offset = 0
+        self.y_pos_offset = 0
+        self.speed = randint(20, 50)
+        self.move_speed = 1
+        self.is_awan = True
+        self.id = 17
+
+    #awan_2
+    def background_18(self):
+        self.size_modifier = randint(1,2)
+        crop_area_background = pygame.Rect(88, 2, 13, 9)
+        background_9 = self.sheet.subsurface(crop_area_background)
+        self.background = pygame.transform.scale(background_9, (52*self.size_modifier, 36*self.size_modifier))
+        self.x_pos_offset = 0
+        self.y_pos_offset = 0
+        self.speed = randint(20, 50)
+        self.move_speed = 1
+        self.is_awan = True
+        self.id = 18
 
 
     def inisialisasi(self):
@@ -214,6 +272,11 @@ class Background(pygame.sprite.Sprite):
         elif self.id == 16:
             self.background_16()
             
+        elif self.id == 17:
+            self.background_17()
+        elif self.id == 18:
+            self.background_18()
+            
     def draw_image(self):
         self.inisialisasi()
         
@@ -221,16 +284,26 @@ class Background(pygame.sprite.Sprite):
         self.background_blu = pygame.Surface((background_width*11, 640), pygame.SRCALPHA)
         self.background_blu.blit(self.background, (0, 0))
         
-        for i in range(1, 12):
-            self.background_blu.blit(self.background, (background_width*i, 0))
+        if not self.is_awan:
+            for i in range(1, 12):
+                self.background_blu.blit(self.background, (background_width*i, 0))
     
         self.image = self.background_blu
         self.rect = self.image.get_rect()
-        self.rect.x = 0
-        self.rect.y = self.window_size[1] - self.background.get_height() - self.y_pos_offset -30
+        
+        if self.is_awan:
+            self.rect.x = randint(0,self.window_size[0])
+            self.rect.y = randint(0, 150)
+        else:
+            self.rect.x = 0
+            self.rect.y = self.window_size[1] - self.background.get_height() - self.y_pos_offset -30
     
     def reset(self):
-        self.rect.x = 0
+        if self.is_awan:
+            self.rect.x = self.window_size[0]
+            self.rect.y = randint(0, 150)
+        else:
+            self.rect.x = 0
     
     def update(self):
         if self.rect.x <= -self.background.get_width()*2:

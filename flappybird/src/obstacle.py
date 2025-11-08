@@ -29,7 +29,7 @@ class Obstacle(pygame.sprite.Sprite):
         
         
         self.scaled_body = pygame.transform.scale(pipe_body, (64, 40))
-        self.scaled_body_re = pygame.transform.scale(pipe_body_re, (64, 28))
+        self.scaled_body_re = pygame.transform.scale(pipe_body_re, (64, 20))
         
     
     def set_obstacle(self):
@@ -105,7 +105,7 @@ class Obstacle(pygame.sprite.Sprite):
         pipe_cap_re = self.sheet.subsurface(crop_area_cap_re)
         self.scaled_cap_re = pygame.transform.scale(pipe_cap_re, (64, 16))
         
-        self.pipe_height = (self.window_size[1] - self.y_bottom_pipe_start -68)-40
+        self.pipe_height = ((self.window_size[1] - self.y_bottom_pipe_start) - 92)/2
         self.pipe_surface = pygame.Surface((64, self.pipe_height), pygame.SRCALPHA)
         
         self.pipe_surface.blit(self.scaled_cap_re, (0, self.pipe_height - self.scaled_cap_re.get_height()))
