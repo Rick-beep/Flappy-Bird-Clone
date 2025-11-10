@@ -11,6 +11,7 @@ class Player(pygame.sprite.Sprite):
         
         self.set_sheet()
         self.player_sprite()
+        
         self.animation_start = 0
         self.jumped = False
         self.at_land = False
@@ -24,7 +25,19 @@ class Player(pygame.sprite.Sprite):
         
         self.rect = self.image.get_rect()
         self.rect.x = int(self.x_pos)
-        self.rect.y = int(self.y_pos) 
+        self.rect.y = int(self.y_pos)
+        
+        self.flap_sound = None 
+        
+        try:
+            # Try to load the sound file.
+            # Make sure you have a folder named "sounds" with "flap.wav" in it.
+            self.flap_sound = pygame.mixer.Sound("flappybird/sounds/wing-flap.wav")
+            
+        except pygame.error as e:
+            # If the file is missing, print an error
+            # The game will still run, just without sound.
+            print(f"Error loading sound 'flap.wav': {e}")
         
     def set_sheet(self):
         WHITE = (255, 255, 255)
@@ -57,6 +70,7 @@ class Player(pygame.sprite.Sprite):
         
         
     def jump(self):
+        self.flap_sound.play()
         self.at_land = False
         self.animation_start = 4
         self.rect.y = 180
@@ -89,7 +103,6 @@ class Player(pygame.sprite.Sprite):
                 self.y_vektor += self.gravitasi
                 
         else:
-            print("Game over")
             self.y_pos = self.window_size[1] - 152
             self.at_land = True
             

@@ -1,5 +1,6 @@
 import pygame
 import setting
+import game
 from random import randint
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, sprite_sheet_path, pipe_id, center_gap_y):
@@ -7,6 +8,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.center_gap_y = center_gap_y
         self.path = sprite_sheet_path
         self.pipe_id = pipe_id
+        self.point = 0
         self.window_size = setting.get_window_size()
         
         self.set_sheet()
@@ -120,9 +122,23 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.window_size[0]
         self.rect.y = self.window_size[1] - 80
+
+
+    # HITBOX FOR GETTING POINT
+    def obstacle_3(self):
+
+        self.pipe_height = self.window_size[1]
+        self.pipe_surface = pygame.Surface((64, self.pipe_height), pygame.SRCALPHA)
+                
+        self.image = self.pipe_surface
+            
+        self.rect = self.image.get_rect()
+        self.rect.x = self.window_size[0]
+        self.rect.y = 0
                 
     def update(self):
         if self.rect.x < -self.pipe_surface.get_width():
             self.kill()
+            
         self.rect.x += -2
         

@@ -13,8 +13,10 @@ class FlappyBird():
         pygame.init()
         self.window_size = setting.get_window_size()
         self.window = pygame.display.set_mode(self.window_size)
+        
+        self.point = 0
+        self.is_hit = False
         self.set_sprite()
-        self.set_background()
         self.set_settings()
         self.main_loop()  
     
@@ -29,6 +31,7 @@ class FlappyBird():
         #set sprite groups
         self.all_sprites = pygame.sprite.Group()
         self.obstacle_group = pygame.sprite.Group()
+        self.point_detector = pygame.sprite.Group()
         
         for i in range(0,17):
             self.background = background.Background("flappybird/assets/1.png", i)
@@ -43,33 +46,64 @@ class FlappyBird():
           
         #add player sprite to "all_sprites" group for drawing 
     
-    def set_background(self):
-        pass
+    def hit(self):
+        print("GAME OVER")
+        
+    def add_point(self):
+        self.point += 1
+        print(self.point)
         
     def main_loop(self):  
         while True:
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN: 
                     if event.key == pygame.K_SPACE:
                         self.my_player.jump()
                 
                 if event.type == PIPE_SPAWN_EVENT:
                     center_gap_y = randint(120,self.window_size[1]-225)
                     
-                    for i in range(0,3):
-                        top_obstacle = obstacle.Obstacle("flappybird/assets/1.png", i, center_gap_y)
-                        self.obstacle_group.add(top_obstacle) 
-                        self.all_sprites.add(top_obstacle)
+                    for i in range(0,4):
+                        if i == 3:
+                            dectect_point = obstacle.Obstacle("flappybird/assets/1.png", i, center_gap_y)
+                            self.point_detector.add(dectect_point)
+                        else:
+                            top_obstacle = obstacle.Obstacle("flappybird/assets/1.png", i, center_gap_y)
+                            self.obstacle_group.add(top_obstacle) 
+                            self.all_sprites.add(top_obstacle)
                     
+
                 if event.type == pygame.QUIT: 
                     exit()
                     
-            #update all sprites  
-            self.all_sprites.update()
-            self.my_player.update()
-            pos = pygame.mouse.get_pos()
-            self.my_player.set_pos(pos)
-            pygame.sprite.spritecollide(self.my_player, self.obstacle_group, True)
+            #update all sprites 
+            if not self.is_hit:
+                self.all_sprites.update()
+                self.my_player.update()
+                self.point_detector.update()
+            
+            #pos = pygame.mouse.get_pos()
+            #self.my_player.set_pos(pos)
+            
+            
+
+            self.passed = pygame.sprite.spritecollide(self.my_player, self.point_detector, False)
+            self.is_hit = pygame.sprite.spritecollide(self.my_player, self.obstacle_group, False)
+            
+            
+            #check kolisi antara player dan pipa
+            if self.is_hit:
+                self.hit()
+            
+            #check jika hitbox untuk dekteksi point sudah terpenuhi, maka point di tambah 1
+            if self.passed:
+                self.add_point( )
+                pygame.sprite.spritecollide(self.my_player, self.point_detector, True)
+                self.passed = []
+
+            
+                
+            
              
             self.window.fill((12, 95, 218))
             self.all_sprites.draw(self.window)
