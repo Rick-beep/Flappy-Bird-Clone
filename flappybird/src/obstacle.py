@@ -133,12 +133,11 @@ class Obstacle(pygame.sprite.Sprite):
         self.image = self.pipe_surface
             
         self.rect = self.image.get_rect()
-        self.rect.x = self.window_size[0]
+        self.rect.x = self.window_size[0] + 60
         self.rect.y = 0
                 
     def update(self):
         if self.rect.x < -self.pipe_surface.get_width():
             self.kill()
-            
         self.rect.x += -2
         
