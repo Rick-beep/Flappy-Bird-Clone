@@ -3,6 +3,7 @@ import player
 import obstacle
 import background
 import setting
+import hud
 from random import randint
   
 PIPE_SPAWN_EVENT = pygame.USEREVENT + 1
@@ -45,7 +46,8 @@ class FlappyBird():
             print(f"Error loading sound: {e}")
         
     def set_sprite(self):
-        self.my_player = player.Player("flappybird/assets/1.png")
+        self.my_player = player.Player()
+        self.hud = hud.Hud()
         
         #set sprite groups
         self.all_sprites = pygame.sprite.Group()
@@ -53,13 +55,13 @@ class FlappyBird():
         self.point_detector = pygame.sprite.Group()
         
         for i in range(0,17):
-            self.background = background.Background("flappybird/assets/1.png", i)
+            self.background = background.Background(i)
             self.all_sprites.add(self.background)
         
         for i in range(0, 3):
-            self.background = background.Background("flappybird/assets/1.png", 17)
+            self.background = background.Background(17)
             self.all_sprites.add(self.background)
-            self.background = background.Background("flappybird/assets/1.png", 18)
+            self.background = background.Background(18)
             self.all_sprites.add(self.background) 
 
           
@@ -69,11 +71,11 @@ class FlappyBird():
         self.game_over_sound.play()
         self.game_over = True
         self.my_player.gameover()
-        print("GAME OVER")
         
     def add_point(self):
         self.point += 1
         self.score_sound.play()
+        self.hud.set_point(self.point)
 
         
     def main_loop(self):  
@@ -90,10 +92,10 @@ class FlappyBird():
                     
                     for i in range(0,4):
                         if i == 3:
-                            dectect_point = obstacle.Obstacle("flappybird/assets/1.png", i, center_gap_y)
+                            dectect_point = obstacle.Obstacle(i, center_gap_y)
                             self.point_detector.add(dectect_point)
                         else:
-                            top_obstacle = obstacle.Obstacle("flappybird/assets/1.png", i, center_gap_y)
+                            top_obstacle = obstacle.Obstacle(i, center_gap_y)
                             self.obstacle_group.add(top_obstacle) 
                             self.all_sprites.add(top_obstacle)
                     
@@ -103,7 +105,9 @@ class FlappyBird():
                     
             #update all sprites 
             self.my_player.update()
-            if not self.is_hit:
+            self.hud.update()
+            
+            if not self.game_over:
                 self.all_sprites.update()
                 self.point_detector.update()
             
@@ -117,6 +121,7 @@ class FlappyBird():
                 #check kolisi antara player dan pipa
                 if self.is_hit:
                     self.hit()
+                    self.hud.set_point(self.point)
                     
                 #check jika hitbox untuk dekteksi point sudah terpenuhi, maka point di tambah 1
                 if self.passed:
@@ -126,8 +131,11 @@ class FlappyBird():
  
              
             self.window.fill((12, 95, 218))
+            
+            
             self.all_sprites.draw(self.window)
-            self.my_player.draw_image(self.window) 
+            self.my_player.draw_image(self.window)
+            self.hud.draw(self.window)
             
             self.clock.tick(self.fps)            
             pygame.display.flip()

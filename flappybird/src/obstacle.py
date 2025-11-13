@@ -3,10 +3,10 @@ import setting
 import game
 from random import randint
 class Obstacle(pygame.sprite.Sprite):
-    def __init__(self, sprite_sheet_path, pipe_id, center_gap_y):
+    def __init__(self, pipe_id, center_gap_y):
         super().__init__()
         self.center_gap_y = center_gap_y
-        self.path = sprite_sheet_path
+        self.path = setting.get_sprite_path()
         self.pipe_id = pipe_id
         self.point = 0
         self.window_size = setting.get_window_size()

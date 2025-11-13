@@ -4,16 +4,16 @@ import setting
 pygame.init()
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, sprite_sheet_path):
+    def __init__(self):
         super().__init__()
         self.window_size = setting.get_window_size()
-        self.path = sprite_sheet_path
+        self.path = setting.get_sprite_path()
         
         self.set_sheet()
         self.player_sprite()
         
         self.is_gameover = False
-        self.animation_start = 0
+        self.animation_frames = 0
         self.jumped = False
         self.at_land = False
         
@@ -62,10 +62,9 @@ class Player(pygame.sprite.Sprite):
         
         
     def jump(self):
-        self.angle = 40
         self.at_land = False
-        self.animation_start = 4
-        self.rect.y = 180
+        self.angle = 40
+        self.animation_frames = 4
         self.y_vektor = -4
 
     def set_pos(self, pos):
@@ -73,7 +72,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = pos[1]
     
     def animation(self):
-        if self.animation_start > 0:
+        if self.animation_frames > 0:
             self.image = self.master_frames[0]
             self.image_refleksi = self.master_frames_refleklsi[0]
             
@@ -85,7 +84,7 @@ class Player(pygame.sprite.Sprite):
             self.image = self.master_frames[1]
             self.image_refleksi = self.master_frames_refleklsi[1]
 
-        self.animation_start -= 1
+        self.animation_frames -= 1
     
     def gameover(self):
         self.is_gameover = True
@@ -101,6 +100,7 @@ class Player(pygame.sprite.Sprite):
             
     def update(self):
         self.rect.y = int(self.y_pos)
+        
         if self.rect.y <= self.window_size[1] - 152 and not self.at_land:
             self.y_pos += self.y_vektor
             if self.y_vektor <= 7:
@@ -110,14 +110,13 @@ class Player(pygame.sprite.Sprite):
             self.y_pos = self.window_size[1] - 152
             self.at_land = True
         
-
         if self.at_land:
             self.angle = 0
-            
+
         elif self.angle >= -60 and not self.at_land:
             if self.is_gameover:
-                self.angle -= 1.2
-            self.angle -= 0.8
+                self.angle -= 2
+            self.angle -= 1.3
             
             
         self.animation()

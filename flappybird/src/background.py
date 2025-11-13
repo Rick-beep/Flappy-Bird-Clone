@@ -2,10 +2,10 @@ import pygame
 import setting
 from random import randint
 class Background(pygame.sprite.Sprite):
-    def __init__(self, sprite_sheet_path, id):
+    def __init__(self, id):
         super().__init__()
         self.id = id
-        self.path = sprite_sheet_path
+        self.path = setting.get_sprite_path()
         self.move_counter = 0
         self.window_size = setting.get_window_size()
 
