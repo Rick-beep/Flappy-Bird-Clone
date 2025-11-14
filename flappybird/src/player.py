@@ -1,6 +1,7 @@
 import pygame
-import random
 import setting
+
+from random import randint
 pygame.init()
 
 class Player(pygame.sprite.Sprite):
@@ -11,6 +12,7 @@ class Player(pygame.sprite.Sprite):
         
         self.set_sheet()
         self.player_sprite()
+        self.set_sound()
         
         self.is_gameover = False
         self.animation_frames = 0
@@ -20,7 +22,7 @@ class Player(pygame.sprite.Sprite):
         self.angle = 0
         
         self.x_pos = self.window_size[0]/4
-        self.y_pos = 0
+        self.y_pos = self.window_size[1]/2
         
         self.gravitasi = 0.13
         self.y_vektor = 0
@@ -59,18 +61,43 @@ class Player(pygame.sprite.Sprite):
     def draw_image(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))
         window.blit(self.image_refleksi, (self.rect.x,(-self.rect.y + self.window_size[1])/2 + 420))
-        
+    
+    def idle(self):
+        if self.rect.y > self.window_size[1]/2:
+            self.jump()
         
     def jump(self):
         self.at_land = False
         self.angle = 40
         self.animation_frames = 4
         self.y_vektor = -4
+        self.land_sfx_played = False
 
     def set_pos(self, pos):
         self.rect.x = pos[0]
         self.rect.y = pos[1]
-    
+
+    def set_sound(self):
+        self.score_sound = None
+        self.game_over_sound = None
+        self.flap_sound = None 
+        self.crash_sound = None
+        self.land_sound = None
+        
+        try:
+            # Try to load the sound file.
+            # Make sure you have a folder named "sounds" with "flap.wav" in it.
+            self.score_sound = pygame.mixer.Sound("flappybird/sounds/beep.wav")
+            self.game_over_sound = pygame.mixer.Sound("flappybird/sounds/game-over.wav")
+            self.flap_sound = pygame.mixer.Sound("flappybird/sounds/wing-flap.wav")
+            self.crash_sound = pygame.mixer.Sound("flappybird/sounds/crash.wav")
+            self.land_sound = pygame.mixer.Sound("flappybird/sounds/land.wav")
+        
+        except pygame.error as e:
+            # If the file is missing, print an error
+            # The game will still run, just without sound.
+            print(f"Error loading sound: {e}")
+            
     def animation(self):
         if self.animation_frames > 0:
             self.image = self.master_frames[0]
@@ -106,12 +133,17 @@ class Player(pygame.sprite.Sprite):
             if self.y_vektor <= 7:
                 self.y_vektor += self.gravitasi
                 
-        elif not self.is_gameover:
+        else:
             self.y_pos = self.window_size[1] - 152
             self.at_land = True
         
         if self.at_land:
-            self.angle = 0
+            if not self.land_sfx_played:
+                self.land_sound.play()
+                self.land_sfx_played = True
+                
+            if not self.is_gameover:
+                self.angle = 0
 
         elif self.angle >= -60 and not self.at_land:
             if self.is_gameover:

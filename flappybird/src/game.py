@@ -16,38 +16,22 @@ class FlappyBird():
         self.window = pygame.display.set_mode(self.window_size)
         
         self.point = 0
-        self.is_hit = False
+        self.start = False
         self.game_over = False
         self.set_sprite()
         self.set_settings()
-        self.set_sound()
         self.main_loop()  
     
     def set_settings(self):
         self.clock = pygame.time.Clock() 
         self.fps = 60
         pygame.time.set_timer(PIPE_SPAWN_EVENT, PIPE_SPAWN_INTERVAL)
-    
-    def set_sound(self):
-        self.score_sound = None
-        self.game_over_sound = None
-        self.flap_sound = None 
-        
-        try:
-            # Try to load the sound file.
-            # Make sure you have a folder named "sounds" with "flap.wav" in it.
-            self.score_sound = pygame.mixer.Sound("flappybird/sounds/beep.wav")
-            self.game_over_sound = pygame.mixer.Sound("flappybird/sounds/game-over.wav")
-            self.flap_sound = pygame.mixer.Sound("flappybird/sounds/wing-flap.wav")
-            
-        except pygame.error as e:
-            # If the file is missing, print an error
-            # The game will still run, just without sound.
-            print(f"Error loading sound: {e}")
         
     def set_sprite(self):
+        #set sprite
         self.my_player = player.Player()
-        self.hud = hud.Hud()
+        self.score_sprite = hud.Score()
+        self.interface = hud.Interface()
         
         #set sprite groups
         self.all_sprites = pygame.sprite.Group()
@@ -63,31 +47,57 @@ class FlappyBird():
             self.all_sprites.add(self.background)
             self.background = background.Background(18)
             self.all_sprites.add(self.background) 
-
-          
-        #add player sprite to "all_sprites" group for drawing 
     
     def hit(self):
-        self.game_over_sound.play()
         self.game_over = True
+        self.my_player.crash_sound.play()
+        self.my_player.game_over_sound.play()
         self.my_player.gameover()
         
     def add_point(self):
         self.point += 1
-        self.score_sound.play()
-        self.hud.set_point(self.point)
+        self.my_player.score_sound.play()
+        self.score_sprite.set_point(self.point)
+    
+    def reset(self):
+        self.point = 0
+        self.start = False
+        self.game_over = False
+        self.set_sprite()
+        self.set_settings()        
 
-        
     def main_loop(self):  
         while True:
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN: 
-                    if event.key == pygame.K_SPACE and not self.game_over:
+                if event.type == pygame.KEYDOWN:
+                    if self.start and not self.game_over:
+                        if event.key == pygame.K_SPACE:
+                            self.my_player.jump()
+                            self.my_player.flap_sound.play()
+                            
+                    if event.key == pygame.K_BACKSPACE:
+                        self.reset()
+                            
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if not self.game_over and self.start:                       
                         self.my_player.jump()
-                        self.flap_sound.play()
+                        self.my_player.flap_sound.play()
+                            
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    # CHECK POSISI CLICK DARI USER UNTUK KOLISI TOMBOL
+                    pos = pygame.mouse.get_pos()
+                    x_check = False
+                    y_check = False
+                    
+                    if pos[0] >= 448 and pos[0] <= 575:
+                        x_check = True
+                    if pos[1] >= 256 and pos[1] <= 321:
+                        y_check = True
+                    
+                    if x_check and y_check:
+                        self.start = True
                         
-                
-                if event.type == PIPE_SPAWN_EVENT:
+                if event.type == PIPE_SPAWN_EVENT and self.start:
                     center_gap_y = randint(120,self.window_size[1]-225)
                     
                     for i in range(0,4):
@@ -99,29 +109,27 @@ class FlappyBird():
                             self.obstacle_group.add(top_obstacle) 
                             self.all_sprites.add(top_obstacle)
                     
-
                 if event.type == pygame.QUIT: 
                     exit()
                     
             #update all sprites 
             self.my_player.update()
-            self.hud.update()
+            self.score_sprite.update()
             
             if not self.game_over:
                 self.all_sprites.update()
                 self.point_detector.update()
             
-                #pos = pygame.mouse.get_pos()
                 #self.my_player.set_pos(pos)
                 
                 self.passed = pygame.sprite.spritecollide(self.my_player, self.point_detector, False)
-                self.is_hit = pygame.sprite.spritecollide(self.my_player, self.obstacle_group, False)
+                self.collision_check = pygame.sprite.spritecollide(self.my_player, self.obstacle_group, False)
                 
                 
                 #check kolisi antara player dan pipa
-                if self.is_hit:
+                if self.collision_check:
                     self.hit()
-                    self.hud.set_point(self.point)
+                    self.score_sprite.set_point(self.point)
                     
                 #check jika hitbox untuk dekteksi point sudah terpenuhi, maka point di tambah 1
                 if self.passed:
@@ -129,13 +137,18 @@ class FlappyBird():
                     pygame.sprite.spritecollide(self.my_player, self.point_detector, True)
 
  
-             
             self.window.fill((12, 95, 218))
             
             
             self.all_sprites.draw(self.window)
             self.my_player.draw_image(self.window)
-            self.hud.draw(self.window)
+            
+            if self.start:
+                self.score_sprite.draw(self.window)
+            else:
+                self.interface.draw(4, self.window)
+                self.interface.draw(1, self.window)
+                self.my_player.idle()
             
             self.clock.tick(self.fps)            
             pygame.display.flip()
