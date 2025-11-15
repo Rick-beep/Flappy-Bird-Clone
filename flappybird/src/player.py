@@ -14,6 +14,8 @@ class Player(pygame.sprite.Sprite):
         self.player_sprite()
         self.set_sound()
         
+        
+        self.land_sfx_played = False
         self.is_gameover = False
         self.animation_frames = 0
         self.jumped = False
@@ -63,15 +65,16 @@ class Player(pygame.sprite.Sprite):
         window.blit(self.image_refleksi, (self.rect.x,(-self.rect.y + self.window_size[1])/2 + 420))
     
     def idle(self):
-        if self.rect.y > self.window_size[1]/2:
+        if self.rect.y > self.window_size[1]/2 + 50:
             self.jump()
         
     def jump(self):
-        self.at_land = False
-        self.angle = 40
-        self.animation_frames = 4
-        self.y_vektor = -4
-        self.land_sfx_played = False
+        if self.rect.y > -50:
+            self.at_land = False
+            self.angle = 40
+            self.animation_frames = 4
+            self.y_vektor = -4
+            self.land_sfx_played = False
 
     def set_pos(self, pos):
         self.rect.x = pos[0]
@@ -97,6 +100,15 @@ class Player(pygame.sprite.Sprite):
             # If the file is missing, print an error
             # The game will still run, just without sound.
             print(f"Error loading sound: {e}")
+        
+        # Set volume(0.0 - 1.0)
+        self.score_sound.set_volume(0.5)
+        self.game_over_sound.set_volume(0.5)
+        self.flap_sound.set_volume(0.5)
+        self.crash_sound.set_volume(0.5)
+        self.land_sound.set_volume(0.5)
+
+        
             
     def animation(self):
         if self.animation_frames > 0:

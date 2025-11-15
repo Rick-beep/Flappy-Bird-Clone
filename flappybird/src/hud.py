@@ -82,7 +82,7 @@ class Interface(pygame.sprite.Sprite):
                 cord = (134, 1, 29, 7)
                 upscale = (116, 28)
             elif i == 2: # "Game over" sprite
-                cord = (135, 10, 26, 15)
+                cord = (135, 9, 26, 15)
                 upscale = (104, 60)
             elif i == 3: # "New best" sprite
                 cord = (135, 24, 27, 16)

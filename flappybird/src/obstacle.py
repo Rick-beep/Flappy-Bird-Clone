@@ -46,18 +46,7 @@ class Obstacle(pygame.sprite.Sprite):
             self.obstacle_2()
         elif self.pipe_id == 3:
             self.obstacle_3()
-        elif self.pipe_id == 4:
-            self.obstacle_4()
-        elif self.pipe_id == 5:
-            self.obstacle_5()
-        elif self.pipe_id == 6:
-            self.obstacle_6()
-        elif self.pipe_id == 7:
-            self.obstacle_7()
-        elif self.pipe_id == 8:
-            self.obstacle_8()
-        elif self.pipe_id == 9:
-            self.obstacle_9()
+
         
     def obstacle_0(self):
         crop_area_cap_bottom = pygame.Rect(1, 1, 16, 7)
@@ -122,7 +111,6 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.window_size[0]
         self.rect.y = self.window_size[1] - 80
-
 
     # HITBOX FOR GETTING POINT
     def obstacle_3(self):

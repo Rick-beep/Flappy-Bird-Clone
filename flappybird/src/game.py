@@ -6,7 +6,7 @@ import setting
 import hud
 from random import randint
   
-PIPE_SPAWN_EVENT = pygame.USEREVENT + 1
+PIPE_SPAWN_EVENT = pygame.USEREVENT 
 PIPE_SPAWN_INTERVAL = 2000
 
 class FlappyBird():
@@ -18,6 +18,7 @@ class FlappyBird():
         self.point = 0
         self.start = False
         self.game_over = False
+        self.set_music()
         self.set_sprite()
         self.set_settings()
         self.main_loop()  
@@ -27,6 +28,21 @@ class FlappyBird():
         self.fps = 60
         pygame.time.set_timer(PIPE_SPAWN_EVENT, PIPE_SPAWN_INTERVAL)
         
+    def set_music(self):
+        try:
+            # Try to load the sound file.
+            # Make sure you have a folder named "sounds" with "flap.wav" in it.
+            pygame.mixer.music.load("flappybird/sounds/main-theme.mp3")
+
+        except pygame.error as e:
+            # If the file is missing, print an error
+            # The game will still run, just without sound.
+            print(f"Error loading sound: {e}")
+    
+        # Set volume(0.0 - 1.0)
+        pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.play(-1, 0.0)
+            
     def set_sprite(self):
         #set sprite
         self.my_player = player.Player()
@@ -63,6 +79,7 @@ class FlappyBird():
         self.point = 0
         self.start = False
         self.game_over = False
+        self.set_music()
         self.set_sprite()
         self.set_settings()        
 
@@ -77,13 +94,12 @@ class FlappyBird():
                             
                     if event.key == pygame.K_BACKSPACE:
                         self.reset()
-                            
+                        
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if not self.game_over and self.start:                       
                         self.my_player.jump()
                         self.my_player.flap_sound.play()
-                            
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                        
                     # CHECK POSISI CLICK DARI USER UNTUK KOLISI TOMBOL
                     pos = pygame.mouse.get_pos()
                     x_check = False
@@ -93,10 +109,16 @@ class FlappyBird():
                         x_check = True
                     if pos[1] >= 256 and pos[1] <= 321:
                         y_check = True
-                    
-                    if x_check and y_check:
-                        self.start = True
                         
+                    if x_check and y_check:
+                        
+                        if not self.start:
+                            self.start = True
+                            # Fadeout background musik
+                            pygame.mixer.music.fadeout(1500)
+                        if self.game_over:
+                            self.reset()
+
                 if event.type == PIPE_SPAWN_EVENT and self.start:
                     center_gap_y = randint(120,self.window_size[1]-225)
                     
@@ -112,10 +134,8 @@ class FlappyBird():
                 if event.type == pygame.QUIT: 
                     exit()
                     
-            #update all sprites 
             self.my_player.update()
             self.score_sprite.update()
-            
             if not self.game_over:
                 self.all_sprites.update()
                 self.point_detector.update()
@@ -135,20 +155,23 @@ class FlappyBird():
                 if self.passed:
                     self.add_point()
                     pygame.sprite.spritecollide(self.my_player, self.point_detector, True)
-
- 
-            self.window.fill((12, 95, 218))
             
+            self.window.fill((12, 95, 218))
             
             self.all_sprites.draw(self.window)
             self.my_player.draw_image(self.window)
             
+            # check status game
             if self.start:
                 self.score_sprite.draw(self.window)
             else:
                 self.interface.draw(4, self.window)
                 self.interface.draw(1, self.window)
                 self.my_player.idle()
+            
+            if self.game_over:
+                self.interface.draw(4, self.window)
+                self.interface.draw(2, self.window)
             
             self.clock.tick(self.fps)            
             pygame.display.flip()
