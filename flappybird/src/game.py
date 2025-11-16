@@ -139,8 +139,9 @@ class FlappyBird():
             if not self.game_over:
                 self.all_sprites.update()
                 self.point_detector.update()
-            
-                #self.my_player.set_pos(pos)
+                
+                #pos = pygame.mouse.get_pos()
+                #elf.my_player.set_pos(pos)
                 
                 self.passed = pygame.sprite.spritecollide(self.my_player, self.point_detector, False)
                 self.collision_check = pygame.sprite.spritecollide(self.my_player, self.obstacle_group, False)

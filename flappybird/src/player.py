@@ -38,7 +38,6 @@ class Player(pygame.sprite.Sprite):
         WHITE = (255, 255, 255)
         self.sheet = pygame.image.load(self.path).convert_alpha()
         self.sheet.set_colorkey(WHITE)
-    
             
     def player_sprite(self):
         self.master_frames = {}
@@ -160,7 +159,8 @@ class Player(pygame.sprite.Sprite):
         elif self.angle >= -60 and not self.at_land:
             if self.is_gameover:
                 self.angle -= 2
-            self.angle -= 1.3
+            else:
+                self.angle -= 1.3
             
             
         self.animation()

@@ -146,7 +146,7 @@ class Background(pygame.sprite.Sprite):
         background_11 = self.sheet.subsurface(crop_area_background)
         self.background = pygame.transform.scale(background_11, (320, 56))
         self.x_pos_offset = 50
-        self.y_pos_offset = 0
+        self.y_pos_offset = 15
         self.speed = 34 # Setiap 3x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
         self.is_awan = False
@@ -157,7 +157,7 @@ class Background(pygame.sprite.Sprite):
         background_12 = self.sheet.subsurface(crop_area_background)
         self.background = pygame.transform.scale(background_12, (320, 56))
         self.x_pos_offset = 35
-        self.y_pos_offset = 0
+        self.y_pos_offset = 15
         self.speed = 50 # Setiap 2x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
         self.is_awan = False
@@ -168,7 +168,7 @@ class Background(pygame.sprite.Sprite):
         background_12 = self.sheet.subsurface(crop_area_background)
         self.background = pygame.transform.scale(background_12, (320, 56))
         self.x_pos_offset = 35
-        self.y_pos_offset = 0
+        self.y_pos_offset = 15
         self.speed = 100 # Setiap 1x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
         self.is_awan = False
