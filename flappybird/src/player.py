@@ -89,11 +89,11 @@ class Player(pygame.sprite.Sprite):
         try:
             # Try to load the sound file.
             # Make sure you have a folder named "sounds" with "flap.wav" in it.
-            self.score_sound = pygame.mixer.Sound("flappybird/sounds/beep.wav")
-            self.game_over_sound = pygame.mixer.Sound("flappybird/sounds/game-over.wav")
-            self.flap_sound = pygame.mixer.Sound("flappybird/sounds/wing-flap.wav")
-            self.crash_sound = pygame.mixer.Sound("flappybird/sounds/crash.wav")
-            self.land_sound = pygame.mixer.Sound("flappybird/sounds/land.wav")
+            self.score_sound = pygame.mixer.Sound("sounds/beep.wav")
+            self.game_over_sound = pygame.mixer.Sound("sounds/game-over.wav")
+            self.flap_sound = pygame.mixer.Sound("sounds/wing-flap.wav")
+            self.crash_sound = pygame.mixer.Sound("sounds/crash.wav")
+            self.land_sound = pygame.mixer.Sound("sounds/land.wav")
         
         except pygame.error as e:
             # If the file is missing, print an error

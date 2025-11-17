@@ -6,4 +6,5 @@ def get_resolution():
     return
 
 def get_sprite_path():
-    return "flappybird/assets/1.png"
+    return "assets/1.png"
+

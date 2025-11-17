@@ -32,7 +32,7 @@ class FlappyBird():
         try:
             # Try to load the sound file.
             # Make sure you have a folder named "sounds" with "flap.wav" in it.
-            pygame.mixer.music.load("flappybird/sounds/main-theme.mp3")
+            pygame.mixer.music.load("sounds/main-theme.mp3")
 
         except pygame.error as e:
             # If the file is missing, print an error

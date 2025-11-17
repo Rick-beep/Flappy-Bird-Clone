@@ -295,7 +295,7 @@ class Background(pygame.sprite.Sprite):
             self.rect.x = randint(0,self.window_size[0])
             self.rect.y = randint(0, 150)
         else:
-            self.rect.x = 0
+            self.rect.x = randint(-100, 0)
             self.rect.y = self.window_size[1] - self.background.get_height() - self.y_pos_offset -30
     
     def reset(self):
