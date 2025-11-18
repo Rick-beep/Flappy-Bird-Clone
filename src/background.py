@@ -22,7 +22,7 @@ class Background(pygame.sprite.Sprite):
         crop_area_background = pygame.Rect(1, 28, 40, 31)
         background_0 = self.sheet.subsurface(crop_area_background) 
         self.background = pygame.transform.scale(background_0, (320, 248))
-        self.x_pos_offset = 120
+        self.x_pos_offset = -150
         self.y_pos_offset = 50
         self.speed = 15 # Setiap 7x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
@@ -33,7 +33,7 @@ class Background(pygame.sprite.Sprite):
         crop_area_background = pygame.Rect(42, 28, 40, 31)
         background_1 = self.sheet.subsurface(crop_area_background)
         self.background = pygame.transform.scale(background_1, (320, 248))
-        self.x_pos_offset = 80
+        self.x_pos_offset = -80
         self.y_pos_offset = 50
         self.speed = 17 # Setiap 6x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
@@ -66,7 +66,7 @@ class Background(pygame.sprite.Sprite):
         crop_area_background = pygame.Rect(1, 60, 40, 14)
         background_4 = self.sheet.subsurface(crop_area_background)
         self.background = pygame.transform.scale(background_4, (320, 112))
-        self.x_pos_offset = 50
+        self.x_pos_offset = -50
         self.y_pos_offset = 50
         self.speed = 34 # Setiap 3x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
@@ -77,7 +77,7 @@ class Background(pygame.sprite.Sprite):
         crop_area_background = pygame.Rect(42, 60, 40, 14)
         background_5 = self.sheet.subsurface(crop_area_background)
         self.background = pygame.transform.scale(background_5, (320, 112))
-        self.x_pos_offset = 35
+        self.x_pos_offset = -35
         self.y_pos_offset = 50
         self.speed = 50 # Setiap 2x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
@@ -88,7 +88,7 @@ class Background(pygame.sprite.Sprite):
         crop_area_background = pygame.Rect(83, 60, 40, 14)
         background_6 = self.sheet.subsurface(crop_area_background)
         self.background = pygame.transform.scale(background_6, (320, 112))
-        self.x_pos_offset = 35
+        self.x_pos_offset = -35
         self.y_pos_offset = 50
         self.speed = 100 # Setiap 1x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
@@ -100,7 +100,7 @@ class Background(pygame.sprite.Sprite):
         crop_area_background = pygame.Rect(1, 83, 40, 13)
         background_10 = self.sheet.subsurface(crop_area_background)
         self.background = pygame.transform.scale(background_10, (320, 104))
-        self.x_pos_offset = 120
+        self.x_pos_offset = -150
         self.y_pos_offset = -30
         self.speed = 15 # Setiap 7x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
@@ -111,7 +111,7 @@ class Background(pygame.sprite.Sprite):
         crop_area_background = pygame.Rect(42, 83, 40, 13)
         background_11 = self.sheet.subsurface(crop_area_background)
         self.background = pygame.transform.scale(background_11, (320, 104))
-        self.x_pos_offset = 80
+        self.x_pos_offset = -80
         self.y_pos_offset = -30
         self.speed = 17 # Setiap 6x pengulangan akan bergerkan 1 pixel 
         self.move_speed = 1
@@ -295,7 +295,7 @@ class Background(pygame.sprite.Sprite):
             self.rect.x = randint(0,self.window_size[0])
             self.rect.y = randint(0, 150)
         else:
-            self.rect.x = randint(-100, 0)
+            self.rect.x = self.x_pos_offset
             self.rect.y = self.window_size[1] - self.background.get_height() - self.y_pos_offset -30
     
     def reset(self):
